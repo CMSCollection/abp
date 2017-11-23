@@ -1,5 +1,6 @@
-import Vue from "vue";
+﻿import Vue from "vue";
 import { TodoItem } from "./TodoItem";
+
 var app = new Vue({
     el: '#TodoApp',
     data: {
@@ -9,4 +10,3 @@ var app = new Vue({
         ]
     }
 });
-//# sourceMappingURL=index.js.map

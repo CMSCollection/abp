@@ -11,7 +11,13 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <TypeScriptToolsVersion>2.6</TypeScriptToolsVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\pages\app\todo\TodoItem.ts" />
+    <Content Remove="wwwroot\pages\globals.d.ts" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Update="wwwroot\**\*;Areas\**\*;Views\**\*;Dockerfile">
@@ -55,6 +61,12 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\pages\app\todo\index.ts" />
+    <TypeScriptCompile Include="wwwroot\pages\app\todo\TodoItem.ts" />
+    <TypeScriptCompile Include="wwwroot\pages\globals.d.ts" />
   </ItemGroup>
 
 </Project>

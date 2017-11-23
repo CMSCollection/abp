@@ -6,12 +6,11 @@
 <div id="TodoApp">
     <ol>
         <li v-for="todo in todos">
-            {{ todo.text }}
+            {{ todo.name }}
         </li>
     </ol>
 </div>
 
 @section scripts {
-    <script src="https://unpkg.com/vue"></script>
-    <script src="~/pages/app/todo/index.js"></script>
+    <script src="~/pages/app/todo/todos.bundle.js"></script>
 }
