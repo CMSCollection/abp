@@ -3,7 +3,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 
-namespace Acme.BookStore
+namespace Acme.BookStore.Books
 {
     public class BookAppService :
         AsyncCrudAppService<Book, BookDto, Guid, PagedAndSortedResultRequestDto,

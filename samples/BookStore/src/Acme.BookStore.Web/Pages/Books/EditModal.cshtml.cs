@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Acme.BookStore.Books;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Acme.BookStore.Pages.Books

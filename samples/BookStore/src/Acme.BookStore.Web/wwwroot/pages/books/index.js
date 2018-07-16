@@ -7,7 +7,7 @@
 
     var dataTable = $('#BooksTable').DataTable(abp.libs.datatables.normalizeConfiguration({
         order: [[1, "asc"]],
-        ajax: abp.libs.datatables.createAjax(acme.bookStore.book.getList),
+        ajax: abp.libs.datatables.createAjax(acme.bookStore.books.book.getList),
         columnDefs: [
             {
                 rowAction: {
@@ -25,7 +25,7 @@
                                 return l('BookDeletionConfirmationMessage', data.record.name);
                             },
                             action: function (data) {
-                                acme.bookStore.book
+                                acme.bookStore.books.book
                                     .delete(data.record.id)
                                     .then(function() {
                                         abp.notify.info(l('SuccessfullyDeleted'));
