@@ -1,6 +1,7 @@
-﻿using System;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Reflection;
 using Volo.Abp.EntityFrameworkCore.Modeling;
 using Volo.Abp.Users.EntityFrameworkCore;
 
@@ -18,33 +19,10 @@ namespace Volo.Abp.Identity.EntityFrameworkCore
 
             optionsAction?.Invoke(options);
 
-            builder.Entity<IdentityUser>(b =>
-            {
-                b.ToTable(options.TablePrefix + "Users", options.Schema);
-
-                b.ConfigureAbpUser(options);
-
-                b.ConfigureExtraProperties();
-
-                b.Property(u => u.NormalizedUserName).IsRequired().HasMaxLength(IdentityUserConsts.MaxNormalizedUserNameLength).HasColumnName(nameof(IdentityUser.NormalizedUserName));
-                b.Property(u => u.NormalizedEmail).HasMaxLength(IdentityUserConsts.MaxNormalizedEmailLength).HasColumnName(nameof(IdentityUser.NormalizedEmail));
-                b.Property(u => u.PasswordHash).HasMaxLength(IdentityUserConsts.MaxPasswordHashLength).HasColumnName(nameof(IdentityUser.PasswordHash));
-                b.Property(u => u.SecurityStamp).IsRequired().HasMaxLength(IdentityUserConsts.MaxSecurityStampLength).HasColumnName(nameof(IdentityUser.SecurityStamp));
-                b.Property(u => u.ConcurrencyStamp).IsRequired().HasMaxLength(IdentityUserConsts.MaxConcurrencyStampLength).HasColumnName(nameof(IdentityUser.ConcurrencyStamp));
-                b.Property(u => u.TwoFactorEnabled).HasDefaultValue(false).HasColumnName(nameof(IdentityUser.TwoFactorEnabled));
-                b.Property(u => u.LockoutEnabled).HasDefaultValue(false).HasColumnName(nameof(IdentityUser.LockoutEnabled));
-                b.Property(u => u.AccessFailedCount).HasDefaultValue(0).HasColumnName(nameof(IdentityUser.AccessFailedCount));
-
-                b.HasMany(u => u.Claims).WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
-                b.HasMany(u => u.Logins).WithOne().HasForeignKey(ul => ul.UserId).IsRequired();
-                b.HasMany(u => u.Roles).WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
-                b.HasMany(u => u.Tokens).WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
-
-                b.HasIndex(u => u.NormalizedUserName);
-                b.HasIndex(u => u.NormalizedEmail);
-                b.HasIndex(u => u.UserName);
-                b.HasIndex(u => u.Email);
-            });
+            typeof(IdentityDbContextModelBuilderExtensions)
+                .GetMethod(nameof(ConfigureIdentityUser), BindingFlags.Static | BindingFlags.NonPublic)
+                .MakeGenericMethod(options.UserType)
+                .Invoke(null, new object[] { builder, options });
 
             builder.Entity<IdentityUserClaim>(b =>
             {
@@ -63,7 +41,7 @@ namespace Volo.Abp.Identity.EntityFrameworkCore
                 b.HasKey(ur => new { ur.UserId, ur.RoleId });
 
                 b.HasOne<IdentityRole>().WithMany().HasForeignKey(ur => ur.RoleId).IsRequired();
-                b.HasOne<IdentityUser>().WithMany(u => u.Roles).HasForeignKey(ur => ur.UserId).IsRequired();
+                b.HasOne(options.UserType).WithMany(nameof(IdentityUser.Roles)).HasForeignKey(nameof(IdentityUserRole.UserId)).IsRequired();
 
                 b.HasIndex(ur => new { ur.RoleId, ur.UserId });
             });
@@ -111,6 +89,38 @@ namespace Volo.Abp.Identity.EntityFrameworkCore
                 b.Property(uc => uc.ClaimValue).HasMaxLength(IdentityRoleClaimConsts.MaxClaimValueLength);
 
                 b.HasIndex(uc => uc.RoleId);
+            });
+        }
+
+        private static void ConfigureIdentityUser<TUser>(ModelBuilder builder, IdentityModelBuilderConfigurationOptions options)
+            where TUser : IdentityUser
+        {
+            builder.Entity<TUser>(b =>
+            {
+                b.ToTable(options.TablePrefix + "Users", options.Schema);
+
+                b.ConfigureAbpUser(options);
+
+                b.ConfigureExtraProperties();
+
+                b.Property(u => u.NormalizedUserName).IsRequired().HasMaxLength(IdentityUserConsts.MaxNormalizedUserNameLength).HasColumnName(nameof(IdentityUser.NormalizedUserName));
+                b.Property(u => u.NormalizedEmail).HasMaxLength(IdentityUserConsts.MaxNormalizedEmailLength).HasColumnName(nameof(IdentityUser.NormalizedEmail));
+                b.Property(u => u.PasswordHash).HasMaxLength(IdentityUserConsts.MaxPasswordHashLength).HasColumnName(nameof(IdentityUser.PasswordHash));
+                b.Property(u => u.SecurityStamp).IsRequired().HasMaxLength(IdentityUserConsts.MaxSecurityStampLength).HasColumnName(nameof(IdentityUser.SecurityStamp));
+                b.Property(u => u.ConcurrencyStamp).IsRequired().HasMaxLength(IdentityUserConsts.MaxConcurrencyStampLength).HasColumnName(nameof(IdentityUser.ConcurrencyStamp));
+                b.Property(u => u.TwoFactorEnabled).HasDefaultValue(false).HasColumnName(nameof(IdentityUser.TwoFactorEnabled));
+                b.Property(u => u.LockoutEnabled).HasDefaultValue(false).HasColumnName(nameof(IdentityUser.LockoutEnabled));
+                b.Property(u => u.AccessFailedCount).HasDefaultValue(0).HasColumnName(nameof(IdentityUser.AccessFailedCount));
+
+                b.HasMany(u => u.Claims).WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
+                b.HasMany(u => u.Logins).WithOne().HasForeignKey(ul => ul.UserId).IsRequired();
+                b.HasMany(u => u.Roles).WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
+                b.HasMany(u => u.Tokens).WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
+
+                b.HasIndex(u => u.NormalizedUserName);
+                b.HasIndex(u => u.NormalizedEmail);
+                b.HasIndex(u => u.UserName);
+                b.HasIndex(u => u.Email);
             });
         }
     }
