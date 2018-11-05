@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Modularity;
 using Volo.Docs.Projects;
@@ -7,6 +8,7 @@ namespace Volo.Docs.EntityFrameworkCore
 {
     [DependsOn(
         typeof(DocsDomainModule),
+        typeof(AbpAuditLoggingEntityFrameworkCoreModule),
         typeof(AbpEntityFrameworkCoreModule))]
     public class DocsEntityFrameworkCoreModule : AbpModule
     {

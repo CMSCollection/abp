@@ -14,6 +14,7 @@
     <ProjectReference Include="..\Volo.Docs.Domain\Volo.Docs.Domain.csproj" />
     <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.AutoMapper\Volo.Abp.AutoMapper.csproj" />
     <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.Caching\Volo.Abp.Caching.csproj" />
+    <ProjectReference Include="..\..\..\..\..\volo\abp\audit-logging\src\Volo.Abp.AuditLogging.Application\Volo.Abp.AuditLogging.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

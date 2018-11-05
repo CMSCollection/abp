@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.DocsTestApp.EntityFrameworkCore;
 
 namespace Volo.DocsTestApp.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(DocsTestAppDbContext))]
-    partial class DocsTestAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181105124255_Added_AuditLogging_Module")]
+    partial class Added_AuditLogging_Module
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

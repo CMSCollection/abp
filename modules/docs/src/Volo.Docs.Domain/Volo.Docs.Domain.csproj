@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Volo.Docs.Domain.Shared\Volo.Docs.Domain.Shared.csproj" />
     <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.Ddd.Domain\Volo.Abp.Ddd.Domain.csproj" />
+    <ProjectReference Include="..\..\..\audit-logging\src\Volo.Abp.AuditLogging.Domain\Volo.Abp.AuditLogging.Domain.csproj" />
   </ItemGroup>
 
 </Project>

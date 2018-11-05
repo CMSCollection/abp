@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.AuditLogging;
 using Volo.Abp.Domain;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
@@ -9,6 +10,7 @@ namespace Volo.Docs
 {
     [DependsOn(
         typeof(DocsDomainSharedModule),
+        typeof(AbpAuditLoggingDomainModule),
         typeof(AbpDddDomainModule)
         )]
     public class DocsDomainModule : AbpModule

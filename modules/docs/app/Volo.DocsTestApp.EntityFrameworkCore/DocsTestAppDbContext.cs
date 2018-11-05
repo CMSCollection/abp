@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Docs.EntityFrameworkCore;
 
@@ -16,6 +17,7 @@ namespace Volo.DocsTestApp.EntityFrameworkCore
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.ConfigureAuditLogging();
             modelBuilder.ConfigureDocs();
         }
     }

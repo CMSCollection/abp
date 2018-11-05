@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.Autofac\Volo.Abp.Autofac.csproj" />
     <ProjectReference Include="..\..\..\..\framework\src\Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic\Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.csproj" />
     <ProjectReference Include="..\Volo.DocsTestApp.EntityFrameworkCore\Volo.DocsTestApp.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\..\..\..\volo\abp\audit-logging\src\Volo.Abp.AuditLogging.Web\Volo.Abp.AuditLogging.Web.csproj" />
   </ItemGroup>
   
 </Project>

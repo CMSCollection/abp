@@ -15,6 +15,8 @@ using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Mvc.UI.Theming;
+using Volo.Abp.Auditing;
+using Volo.Abp.AuditLogging.Web;
 using Volo.Abp.Autofac;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
@@ -30,6 +32,7 @@ namespace Volo.DocsTestApp
         typeof(DocsWebModule),
         typeof(DocsApplicationModule),
         typeof(DocsTestAppEntityFrameworkCoreModule),
+        typeof(AbpAuditLoggingWebModule),
         typeof(AbpAutofacModule),
         typeof(AbpAspNetCoreMvcUiBasicThemeModule)
     )]
@@ -85,6 +88,13 @@ namespace Volo.DocsTestApp
             {
                 options.DefaultThemeName = BasicTheme.Name;
             });
+
+            context.Services.Configure<AbpAuditingOptions>(options =>
+                {
+                    options.IsEnabledForGetRequests = true;
+                    //options.EntityHistorySelectors.AddAllEntities();
+                }
+            );
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -102,6 +112,8 @@ namespace Volo.DocsTestApp
             });
 
             app.UseAuthentication();
+
+            app.UseAuditing();
 
             app.UseRequestLocalization(app.ApplicationServices.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 
